@@ -1,47 +1,75 @@
 use crate::prelude::*;
+use std::collections::HashSet;
 
 // Constant
 const YEAR: usize = 2020;
 
 // -----------------------------------------------------------------------------
-// Find pair of flagged indices that sum to length of mask array
-// -----------------------------------------------------------------------------
-fn find_two(array: &[bool]) -> Option<i32> {
-    let value = array
-        .iter()
-        .enumerate()
-        .zip(array.iter().rev())
-        .find_map(|((i, a), b)| if a & b { Some(i as i32) } else { None });
-    value
-}
-
-// -----------------------------------------------------------------------------
 // Part 1
 // -----------------------------------------------------------------------------
-fn part_1(mask: &[bool]) -> (i32, i32) {
-    match find_two(&mask) {
-        Some(index) => (index, YEAR as i32 - index),
-        None => panic!("No pair found"),
+// O(N^2)
+fn part_1(input: &str, sum_target: usize) -> usize {
+    // transform the string into a vector of usize
+    let v: Vec<usize> = input.lines().map(|s| s.parse::<usize>().unwrap()).collect();
+
+    for i in 0..v.len() {
+        for j in 0..v.len() {
+            if i == j {
+                continue;
+            }
+
+            if v[i] + v[j] == sum_target {
+                return v[i] * v[j];
+            }
+        }
     }
+
+    return 0;
+}
+
+#[allow(dead_code)]
+fn part_1_set(input: &str, sum_target: usize) -> Option<(usize, usize)> {
+    let mut lookup: HashSet<usize> = HashSet::new();
+    let input: Vec<usize> = input
+        .lines()
+        .map(|line| line.parse::<usize>().unwrap())
+        .collect();
+
+    for n in input {
+        let to_add = sum_target - n;
+
+        if lookup.contains(&to_add) {
+            return Some((to_add, n));
+        }
+
+        lookup.insert(n);
+    }
+
+    None
 }
 
 // -----------------------------------------------------------------------------
 // Part 2
 // -----------------------------------------------------------------------------
-fn part_2(values: &[usize], mask: &[bool]) -> (i32, i32, i32) {
-    for value in values {
-        let remainder = YEAR - *value;
-        let index = find_two(&mask[0..=remainder]);
-        if index != None {
-            let triple = (
-                *value as i32,
-                index.unwrap(),
-                YEAR as i32 - *value as i32 - index.unwrap(),
-            );
-            return triple;
+fn part_2(input: &str, sum_target: usize) -> usize {
+    // transform the string into a vector of u32
+    let v: Vec<usize> = input.lines().map(|s| s.parse::<usize>().unwrap()).collect();
+
+    for i in 0..v.len() {
+        for j in 0..v.len() {
+            for k in 0..v.len() {
+                if i == j || i == k || j == k {
+                    continue;
+                }
+
+                if v[i] + v[j] + v[k] == sum_target {
+                    return v[i] * v[j] * v[k];
+                }
+            }
         }
     }
-    panic!("No triple found");
+
+    return 0;
 }
 
 // -----------------------------------------------------------------------------
@@ -53,26 +81,16 @@ pub(crate) fn run() -> Results {
     // -------------------------------------------------------------------------
     // Open file
     let start_setup = Instant::now();
-    let buffer: String = std::fs::read_to_string("input/day01.txt").unwrap();
-
-    // Read to vector
-    let values: Vec<usize> = buffer
-        .lines()
-        .map(|line| line.parse().expect("failed to parse line"))
-        .collect();
-
-    // Mask array
-    let mut mask = [false; YEAR + 1];
-    values.iter().for_each(|&value| mask[value] = true);
+    let input: String =
+        std::fs::read_to_string("input/day01.txt").expect("Could not open day01.txt");
     let time_setup = start_setup.elapsed();
 
     // -------------------------------------------------------------------------
     // Part 1
     // -------------------------------------------------------------------------
-    // Look for pair
     let start_part_1 = Instant::now();
-    let tuple = part_1(&mask);
-    let product_1 = tuple.0 * tuple.1;
+    let part_1 = part_1(&input, YEAR);
+    // let product_1 = tuple.0 * tuple.1;
     let time_part_1 = start_part_1.elapsed();
 
     // -------------------------------------------------------------------------
@@ -80,16 +98,16 @@ pub(crate) fn run() -> Results {
     // -------------------------------------------------------------------------
     // Look for triple
     let start_part_2 = Instant::now();
-    let triple = part_2(&values, &mask);
-    let product_2 = triple.0 * triple.1 * triple.2;
+    let part_2 = part_2(&input, YEAR);
+    // let product_2 = triple.0 * triple.1 * triple.2;
     let time_part_2 = start_part_2.elapsed();
 
     // -------------------------------------------------------------------------
     // Return
     // -------------------------------------------------------------------------
     Results::new(
-        product_1 as i64,
-        product_2 as i64,
+        part_1 as i64,
+        part_2 as i64,
         Timing::new(
             time_setup,
             time_part_1,

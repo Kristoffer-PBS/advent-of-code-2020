@@ -5,13 +5,14 @@ extern crate lazy_static;
 // Modules
 // -----------------------------------------------------------------------------
 mod day01;
-// mod day02;
-// mod day03;
-// mod day04;
-// mod day05;
-// mod day06;
-// mod day07;
-// mod day08;
+mod day02;
+mod day03;
+mod day04;
+mod day05;
+mod day06;
+mod day07;
+mod day08;
+mod day09;
 mod output;
 
 // -----------------------------------------------------------------------------
@@ -64,7 +65,7 @@ impl Timing {
 // -----------------------------------------------------------------------------
 // Prelude
 // -----------------------------------------------------------------------------
-const REPETITIONS: u32 = 250;
+const REPETITIONS: u32 = 10;
 pub(crate) mod prelude {
     pub(crate) use crate::REPETITIONS;
     pub(crate) use crate::{output, Results, Timing};
@@ -77,39 +78,43 @@ pub(crate) mod prelude {
 // -----------------------------------------------------------------------------
 fn main() {
     // Setup
-    const DAYS: usize = 1;
+    const DAYS: usize = 9;
+
     let runs = [
         day01::run,
-        // day02::run,
-        // day03::run,
-        // day04::run,
-        // day05::run,
-        // day06::run,
-        // day07::run,
-        // day08::run,
+        day02::run,
+        day03::run,
+        day04::run,
+        day05::run,
+        day06::run,
+        day07::run,
+        day08::run,
+        day09::run,
     ];
     let reports = [
         day01::report,
-        // day02::report,
-        // day03::report,
-        // day04::report,
-        // day05::report,
-        // day06::report,
-        // day07::report,
-        // day08::report,
+        day02::report,
+        day03::report,
+        day04::report,
+        day05::report,
+        day06::report,
+        day07::report,
+        day08::report,
+        day09::report,
     ];
 
     // Each day
     output::print_header();
     let mut day_results: [Vec<Results>; DAYS] = [
         vec![],
-        // vec![],
-        // vec![],
-        // vec![],
-        // vec![],
-        // vec![],
-        // vec![],
-        // vec![],
+        vec![],
+        vec![],
+        vec![],
+        vec![],
+        vec![],
+        vec![],
+        vec![],
+        vec![],
     ];
 
     for _ in 0..REPETITIONS {
@@ -175,7 +180,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    const MAX_TIME: u128 = 250;
+    const MAX_TIME: u128 = 300;
 
     macro_rules! test_day {
         ($results:expr, $part_1:expr, $part_2:expr) => {
@@ -188,7 +193,54 @@ mod tests {
     #[test]
     fn test_01() {
         let results = day01::run();
-        test_day!(results, 326211, 131347190);
+        test_day!(results, 1020036, 286977330);
+    }
+    #[test]
+    fn test_02() {
+        let results = day02::run();
+        test_day!(results, 586, 352);
+    }
+
+    #[test]
+    fn test_03() {
+        let results = day03::run();
+        test_day!(results, 294, 5774564250);
+    }
+
+    #[test]
+    fn test_04() {
+        let results = day04::run();
+        test_day!(results, 192, 101);
+    }
+
+    #[test]
+    fn test_05() {
+        let results = day05::run();
+        test_day!(results, 970, 587);
+    }
+
+    #[test]
+    fn test_06() {
+        let results = day06::run();
+        test_day!(results, 6630, 3437);
+    }
+
+    #[test]
+    fn test_07() {
+        let results = day07::run();
+        test_day!(results, 222, 13264);
+    }
+
+    #[test]
+    fn test_08() {
+        let results = day08::run();
+        test_day!(results, 1949, 2092);
+    }
+
+    #[test]
+    fn test_09() {
+        let results = day09::run();
+        test_day!(results, 90433990, 11691646);
     }
 }
 
