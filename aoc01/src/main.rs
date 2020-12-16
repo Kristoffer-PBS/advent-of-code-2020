@@ -83,18 +83,3 @@ fn part_2(input: &str, sum_target: u64) -> u64 {
 
     return 0;
 }
-
-// fn part_2_set(input: &str, sum_target: usize) -> Option<(usize, usize, usize)> {
-//     let v: Vec<usize> = input
-//         .lines()
-//         .map(|line| line.parse::<usize>().unwrap())
-//         .collect();
-
-//     for c in v {
-//         if let Some((a, b)) = part_1_set(&input, sum_target - c) {
-//             return Some((a, b, c));
-//         }
-//     }
-
-//     None
-// }

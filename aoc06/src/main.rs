@@ -1,5 +1,4 @@
-use std::collections::HashMap;
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::fs;
 
 fn main() {
@@ -38,6 +37,22 @@ fn main() {
 // What is the sum of those counts?
 fn part_1(input: &str) -> usize {
     let mut sum = 0_usize;
+
+    // let f = input.split("\n\n").fold(0, |acc, group| {
+    //     acc + group
+    //         .lines()
+    //         .flat_map(|line| line.chars())
+    //         .collect::<HashSet<char>>()
+    //         .len()
+    // });
+
+    // let b = input.split("\n\n").fold(0, |acc, group| {
+    //     acc + group
+    //         .lines()
+    //         .fold(('a'..='z').collect::<HashSet<_>>(), |acc, line| {
+    //             acc.intersection
+    //         })
+    // })
 
     // go through each group
     for group in input.split("\n\n") {

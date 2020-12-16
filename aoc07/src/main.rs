@@ -230,7 +230,7 @@ impl Solution {
             let mut total = 0_usize;
             for bag in bags {
                 if bag == query {
-                    println!("{:?}", bags);
+                    // println!("{:?}", bags);
                     return 1;
                 } else {
                     total += self.bag_count(bag, query);
@@ -277,104 +277,3 @@ impl Solution {
         total
     }
 }
-
-// every line is unique
-// number of bags are irrelevant
-// recursion
-// fn part_1(input: &str) -> usize {
-//     let mut total = 0_usize;
-
-//     let mut s = Solution::new();
-
-//     if let Ok(haha) = s.parse(input.to_string()) {
-//         println!("print whuw");
-//     }
-
-//     s.print();
-
-//     for bag in &s.rule_set
-
-//     total = 4;
-
-//     // println!("{}", input);
-
-//     total
-// }
-// pub struct TreeNode {
-//     pub value: String,
-//     pub left: Option<Box<TreeNode>>,
-//     pub right: Option<Box<TreeNode>>,
-// }
-
-// impl TreeNode {
-//     pub fn new(
-//         value: String,
-//         left: Option<Box<TreeNode>>,
-//         right: Option<Box<TreeNode>>
-//     ) -> Self {
-//         TreeNode {
-//             value,
-//             left,
-//             right
-//         }
-//     }
-// }
-
-// pub struct Tree {
-//     root: Option<TreeNode>
-// }
-
-// impl Tree {
-//     pub fn new(root: Option<TreeNode>) -> Self {
-//         Tree {
-//             root
-//         }
-//     }
-
-//     pub fn iter(&self) -> PreorderIter {
-//         // the as_ref() function is used to borrow the contents of the Option type.
-//         // In this case, self.root.as_ref() will return data of the type Option<&Box<TreeNode>>,
-//         // Signifying that the Box is borrowed instead of the Option itself (&Option<Box<TreeNode>>)
-//         PreorderIter::new(self.root.as_ref())
-//     }
-// }
-// // explicitly annotate the lifetime of the struct
-// // specify that the borrow lives for as long as the struct lives
-// pub struct PreorderIter<'a> {
-//     stack: Vec<&'a TreeNode>
-// }
-
-// impl<'a> PreorderIter<'a> {
-//     pub fn new(root: Option<&'a TreeNode>) -> Self {
-//         if let Some(node) = root {
-//             PreorderIter {
-//                 stack: vec![node]
-//             }
-//         }
-//         else {
-//             PreorderIter {
-//                 stack: vec![]
-//             }
-//         }
-//     }
-// }
-
-// impl<'a> Iterator for PreorderIter<'a> {
-//     type Item = &'a TreeNode;
-
-//     fn next(&mut self) -> Option<Self::Item> {
-//         if let Some(node) = self.stack.pop() {
-//             if let Some(right) = &node.right {
-//                 self.stack.push(&right)
-//             }
-
-//             if let Some(left) = &node.left {
-//                 self.stack.push(&left)
-//             }
-
-//             return Some(node);
-//         }
-//         None
-//     }
-
-// }
