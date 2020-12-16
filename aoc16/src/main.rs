@@ -1,10 +1,52 @@
-fn main() {
-    for _ in 2..2 {
-        println!("loop");
-    }
+use std::collections::HashMap;
 
-    // let input = std::fs::read_to_string("input/input.txt").unwrap();
+fn main() {
+    let input = std::fs::read_to_string("input/input.txt").unwrap();
+
+    println!("PART 1: {}", part_1(&input));
 }
+
+fn parse_range(input: &str) -> Option<(usize, usize)> {
+    let delimiter = input.find('-')?;
+
+    Some((
+        input[..delimiter].parse::<usize>().unwrap(),
+        input[delimiter + 1..].parse::<usize>().unwrap(),
+    ))
+}
+
+// fn parse_tickets(input: &str) -> Vec<bool> {
+//     let mut iter = input.split("\n\n");
+
+//     let mut valid_values: Vec<bool> = Vec::new();
+//     valid_values.resize(100_000, false);
+
+//     let mut invalid_values: Vec<usize> = Vec::new();
+
+//     // step 1: parse ruleset
+//     for line in iter.next().unwrap().lines() {
+//         let mut description = line.split_whitespace().skip(1);
+
+//         // first range before 'or'
+//         if let Some((lower, upper)) = parse_range(description.next().unwrap()) {
+//             for i in lower..=upper {
+//                 valid_values[i] = true;
+//             }
+//         }
+
+//         // skip the 'or'
+//         description.next().unwrap();
+
+//         // second range after 'or'
+//         if let Some((lower, upper)) = parse_range(description.next().unwrap()) {
+//             for i in lower..=upper {
+//                 valid_values[i] = true;
+//             }
+//         }
+//     }
+
+//     valid_values
+// }
 
 fn part_1(input: &str) -> usize {
     let mut iter = input.split("\n\n");
@@ -17,41 +59,22 @@ fn part_1(input: &str) -> usize {
     // step 1: parse ruleset
     for line in iter.next().unwrap().lines() {
         let mut description = line.split_whitespace().skip(1);
-        let first = description.next().unwrap();
-        println!("first = {}", first);
-        // println!("first[0] = {}",);
 
         // first range before 'or'
-        let (lower, upper) = {
-            let delimiter = first.find("-").unwrap();
-            (
-                &first[..delimiter].parse::<usize>().unwrap(),
-                &first[delimiter + 1..].parse::<usize>().unwrap(),
-            )
-        };
-
-        for i in *lower..*upper {
-            valid_values[i] = true;
+        if let Some((lower, upper)) = parse_range(description.next().unwrap()) {
+            for i in lower..=upper {
+                valid_values[i] = true;
+            }
         }
 
         // skip the 'or'
         description.next().unwrap();
 
         // second range after 'or'
-        let second = description.next().unwrap();
-        println!("second = {}", second);
-
-        let (lower, upper) = {
-            let delimiter = second.find("-").unwrap();
-            println!("delimiter is {}", delimiter);
-            (
-                &first[..delimiter].parse::<usize>().unwrap(),
-                &first[delimiter + 1..].parse::<usize>().unwrap(),
-            )
-        };
-
-        for i in *lower..*upper {
-            valid_values[i] = true;
+        if let Some((lower, upper)) = parse_range(description.next().unwrap()) {
+            for i in lower..=upper {
+                valid_values[i] = true;
+            }
         }
     }
 
@@ -77,6 +100,70 @@ fn part_1(input: &str) -> usize {
 
     // step 4: return sum of all invalid tickets
     invalid_values.iter().sum()
+}
+
+#[derive(Debug)]
+struct TicketField {
+    // name: String,
+    first: (usize, usize),
+    second: (usize, usize),
+}
+
+impl TicketField {
+    pub fn new(name: String, first: (usize, usize), second: (usize, usize)) -> Self {
+        Self {
+            // name,
+            first,
+            second
+        }
+    }
+    
+    // This is some janky syntax!
+    pub fn from_line(line: &str) -> Option<Self> {
+        let mut iter = line.split_whitespace().skip(1);
+        Some(Self {
+            // name: iter.next()?.to_string(),
+            first: parse_range(iter.next()?)?,
+            second: parse_range(iter.next()?)?
+        })
+    }
+
+    pub fn contains(&self, value: usize) -> bool {
+        if value >= self.first.0 && value <= self.first.1 {
+            true
+        } else if value >= self.second.0 && value <= self.second.1 {
+            true
+        } else {
+            false
+        }
+    }
+}
+
+
+// look for the six fields on your ticket that starts with the word 'departure' 
+// What do you get if you multiply those six values together?
+fn part_2(input: &str) -> usize {
+    let mut iter = input.split("\n\n");
+    
+    // TODO
+    // 1. discard the ticket which contains invalid values 
+
+    let mut valid_values: Vec<bool> = Vec::new();
+    valid_values.resize(100_000, false);
+
+    // let mut invalid_values: Vec<usize> = Vec::new();
+
+    let mut map: HashMap<&str, TicketField> = HashMap::new();
+
+
+    // step 1: parse ruleset
+    for line in iter.next().unwrap().lines() {
+        map.insert(line, TicketField::from_line(line).unwrap());
+    }
+
+    hah.iter.product()
+
+    2
 }
 
 #[cfg(test)]
