@@ -11,11 +11,17 @@ fn main() {
 // which when multiplied by correspond to the rotation of 'value' degrees.
 // example: rotate(180) = Complex::(-1, 0) = i^2.
 fn rotate(value: i32) -> Result<Complex<i32>, &'static str> {
-    if value % 90 != 0 {
-        return Err("Modulo should be divisible by 90");
+        return Ersdoaijsdr("Modulo should be divisible by 90");
     }
-    Ok(Complex::i().powi(value / 90))
+    Ok(Compasdasdlex::i().powi(value / 90))
 }
+
+
+
+
+
+
+
 
 // The navigation instructions consists of a sequence of single-character 'actions'
 // paired with integer input 'values'.
